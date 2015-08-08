@@ -1,0 +1,138 @@
+﻿<UserControl
+    x:Class="TryClient.UserControls.MediaPlayControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TryClient.UserControls"
+    xmlns:converter="using:TryClient.Helps"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <converter:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+        <converter:BoolToNoVisibilityConverter x:Key="boolToNoVisibilityConverter"/>
+        <converter:BufferingProgressConverter x:Key="bufferingProgressConverter"/>
+        <converter:MediaStateToVisibilityConverter x:Key="mediaStateToVisibilityConverter"/>
+        <converter:VisibilityToOpacityConverter x:Key="visibilityToOpacityConverter"/>
+ 
+        <Storyboard x:Name="PlayControlVisibleStoryboard"  Completed="PlayControlVisibleStoryboard_Completed">
+            <DoubleAnimation Duration="0:0:0.5" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="TitleGrid"/>
+            <DoubleAnimation Duration="0:0:0.5" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ControlGrid"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PlayBtn">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Name="PlayControlCollapsedStoryboard"  Completed="PlayControlCollapsedStoryboard_Completed">
+            <DoubleAnimation Duration="0:0:0.5" To="-40" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="TitleGrid"/>
+            <DoubleAnimation Duration="0:0:0.5" To="80" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ControlGrid"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PlayBtn">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+
+    </UserControl.Resources>
+    
+    <Grid x:Name="Panel">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Rectangle Grid.RowSpan="3" Fill="#00000000" StrokeThickness="0" Tapped="Rectangle_Tapped"/>
+        <MediaElement Grid.RowSpan="3" x:Name="mediaElement" Source="{Binding MediaSource}" IsHitTestVisible="False" AutoPlay="True"  MediaOpened="mediaElement_MediaOpened" CurrentStateChanged="mediaElement_CurrentStateChanged" MediaEnded="mediaElement_MediaEnded" />
+        <Grid Grid.Row="0" x:Name="TitleGrid" Background="#AA000000">
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="55"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="titleText" Grid.Column="1" Foreground="White" TextTrimming="WordEllipsis" Text="{Binding MediaTitle}" VerticalAlignment="Center" FontSize="20"/>
+            <Button x:Name="resolutionBtn" Grid.Column="3" IsEnabled="False" MinWidth="0" MinHeight="0" Height="30" Content="{Binding ResolutionStr}" BorderThickness="0.5" Style="{StaticResource ControlBtnStyle}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,5" Width="55" Click="resolutionBtn_Click"  />
+        </Grid>
+        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="70" Height="70">
+            <CheckBox x:Name="PlayBtn" Style="{StaticResource PlayCheckbox}" Visibility="Visible" Click="PlayBtn_Click">
+                <Grid>
+                    <PathIcon x:Name="CheckedPath" Visibility="{Binding IsChecked,ElementName=PlayBtn,Converter={StaticResource boolToVisibilityConverter}}" Data="M31.270576,19.504999 C31.679943,19.504999 32.089309,19.661163 32.401646,19.973498 L45.974495,33.54623 C46.325874,33.897607 46.479601,34.371788 46.435678,34.830612 L46.421482,34.929 46.435678,35.027381 C46.479601,35.486209 46.325874,35.960388 45.974495,36.311766 L32.401646,49.884499 C31.776976,50.509167 30.764178,50.509167 30.139506,49.884499 29.514831,49.259832 29.514831,48.247047 30.139506,47.622377 L42.832992,34.928998 30.139506,22.235622 C29.514831,21.610954 29.514831,20.598166 30.139506,19.973498 30.45184,19.661163 30.861209,19.504999 31.270576,19.504999 z M35.000003,3.4299984 C17.564325,3.4300003 3.4300003,17.564588 3.4299984,35.000003 3.4300003,52.435671 17.564325,66.569998 35.000003,66.569998 52.435684,66.569998 66.569998,52.435671 66.569998,35.000003 66.569998,17.564588 52.435684,3.4300003 35.000003,3.4299984 z M34.999999,0 C54.329987,-1.9073486E-06 69.999998,15.669962 69.999998,34.999892 69.999998,54.329821 54.329987,69.999998 34.999999,69.999998 15.670011,69.999998 0,54.329821 0,34.999892 0,15.669962 15.670011,-1.9073486E-06 34.999999,0 z"/>
+                    <PathIcon x:Name="UnCheckedPath" Visibility="{Binding IsChecked,ElementName=PlayBtn,Converter={StaticResource boolToNoVisibilityConverter}}"  Data="M43.458,19.25 C44.424498,19.25 45.208,20.033501 45.208,21 L45.208,49 C45.208,49.966496 44.424498,50.75 43.458,50.75 42.491503,50.75 41.708,49.966496 41.708,49 L41.708,21 C41.708,20.033501 42.491503,19.25 43.458,19.25 z M26.542,19.25 C27.508496,19.25 28.292,20.033501 28.292,21 L28.292,49 C28.292,49.966496 27.508496,50.75 26.542,50.75 25.575502,50.75 24.792,49.966496 24.792,49 L24.792,21 C24.792,20.033501 25.575502,19.25 26.542,19.25 z M35.000008,3.4299994 C17.564325,3.4300013 3.4300003,17.564589 3.4300003,35 3.4300003,52.435673 17.564325,66.57 35.000008,66.57 52.435684,66.57 66.57,52.435673 66.57,35 66.57,17.564589 52.435684,3.4300013 35.000008,3.4299994 z M35,0 C54.32999,0 70,15.669962 70,34.999889 70,54.329819 54.32999,70 35,70 15.670013,70 0,54.329819 0,34.999889 0,15.669962 15.670013,0 35,0 z"/>
+                </Grid>
+            </CheckBox>
+            <TextBlock  
+                       Visibility="{Binding ElementName=mediaElement,Path=CurrentState,Converter={StaticResource mediaStateToVisibilityConverter}}" 
+                       Opacity="{Binding ElementName=PlayBtn,Path=Visibility,Converter={StaticResource visibilityToOpacityConverter}}"
+                       Foreground="{ThemeResource ProgressBarForegroundThemeBrush}" Text="{Binding ElementName=mediaElement,Path=BufferingProgress,Converter={StaticResource bufferingProgressConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"/>
+            <ProgressRing x:Name="LoadProgress" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding ElementName=mediaElement,Path=CurrentState,Converter={StaticResource mediaStateToVisibilityConverter}}" Width="50" Height="50" Background="{x:Null}" IsActive="True"/>
+        </Grid>
+        <Grid x:Name="ControlGrid" Grid.Row="2" Background="#AA000000">
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Slider x:Name="PlayProgress" Grid.Column="3" VerticalAlignment="Center" Minimum="0" Height="20" Maximum="100" Style="{StaticResource PlayProgressStyle}" ValueChanged="PlayProgress_ValueChanged"/>
+                <TextBlock x:Name="CurrentTime" Grid.Column="1" Foreground="White" Text="00:00" VerticalAlignment="Center" FontSize="18"/>
+                <TextBlock x:Name="TotalTime" Grid.Column="5" Foreground="White" Text="00:00" VerticalAlignment="Center" FontSize="18"/>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition MaxWidth="70"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="LastVideo" Visibility="{Binding IsInternetFile,Converter={StaticResource boolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ControlBtnStyle}" Click="LastVideo_Click">
+                    <PathIcon VerticalAlignment="Center" HorizontalAlignment="Center" Data="M13.242414,11.879657 C13.518553,11.879655 13.76855,11.991581 13.949512,12.172543 14.130473,12.353504 14.242398,12.6035 14.242397,12.87964 L14.242311,26.879486 C14.242309,27.431765 13.794596,27.879478 13.242317,27.879482 12.690039,27.879484 12.242331,27.431778 12.242333,26.879499 L12.242419,12.879652 C12.242422,12.327374 12.690136,11.879661 13.242414,11.879657 z M26.209187,11.106298 C26.443108,11.106297 26.677029,11.195534 26.855503,11.374008 27.212454,11.730957 27.21245,12.30969 26.855495,12.666644 L19.602119,19.920021 26.855408,27.173309 C27.212357,27.530258 27.212353,28.108992 26.855398,28.465946 26.498446,28.822899 25.919712,28.822903 25.562763,28.465954 L17.80699,20.710182 C17.606207,20.509398 17.518364,20.238441 17.543465,19.976254 L17.551579,19.920033 17.543465,19.863815 C17.518368,19.601627 17.606215,19.330667 17.807001,19.129883 L25.562866,11.374016 C25.741344,11.195539 25.975266,11.106299 26.209187,11.106298 z M19.999601,1.9603997 C10.036357,1.9604002 1.9596001,10.037307 1.9595999,20.000401 1.9596001,29.963644 10.036357,38.040401 19.999601,38.040401 29.962845,38.040401 38.0396,29.963644 38.0396,20.000401 38.0396,10.037307 29.962845,1.9604002 19.999601,1.9603997 z M20,1.0074294E-15 C31.04571,-1.0967096E-07 40,8.9542646 40,19.999937 40,31.045609 31.04571,40 20,40 8.9542923,40 0,31.045609 0,19.999937 0,8.9542646 8.9542923,-1.0967096E-07 20,1.0074294E-15 z"/>
+                </Button>
+                <Button x:Name="Backward" Grid.Column="1" HorizontalAlignment="Center" Style="{StaticResource ControlBtnStyle}" VerticalAlignment="Center" Click="Backward_Click">
+                    <PathIcon VerticalAlignment="Center" HorizontalAlignment="Center" Data="M17.15621,12.528327 C17.354147,12.528331 17.552086,12.603846 17.703108,12.754869 18.005154,13.056915 18.005165,13.546619 17.703131,13.848654 L11.565734,19.98605 17.703384,26.123699 C18.00543,26.425745 18.00544,26.915451 17.703405,27.217485 17.401371,27.519518 16.911667,27.519508 16.609621,27.217463 L10.046775,20.654617 C9.876874,20.484716 9.8025389,20.255438 9.8237715,20.033585 L9.830636,19.986013 9.8237696,19.938444 C9.8025274,19.716589 9.8768539,19.487314 10.046748,19.317421 L16.609324,12.754846 C16.76034,12.603828 16.958275,12.528323 17.15621,12.528327 z M25.282196,11.181907 C25.516121,11.181911 25.750048,11.271155 25.92853,11.449637 26.285494,11.806602 26.285505,12.385344 25.928556,12.742292 L18.675268,19.995579 25.928856,27.249166 C26.285818,27.606129 26.285831,28.184872 25.928881,28.541821 25.571932,28.898769 24.993191,28.898758 24.636227,28.541794 L16.880136,20.785704 C16.679344,20.584911 16.591494,20.313948 16.616587,20.051758 L16.624699,19.995537 16.616585,19.939318 C16.59148,19.677126 16.679319,19.406166 16.880104,19.205381 L24.635874,11.449611 C24.81435,11.271136 25.048271,11.181902 25.282196,11.181907 z M19.999601,1.9603997 C10.036357,1.9604002 1.9596001,10.037307 1.9595999,20.000401 1.9596001,29.963644 10.036357,38.040401 19.999601,38.040401 29.962845,38.040401 38.0396,29.963644 38.0396,20.000401 38.0396,10.037307 29.962845,1.9604002 19.999601,1.9603997 z M20,1.0074294E-15 C31.04571,-1.0967096E-07 40,8.9542646 40,19.999937 40,31.045609 31.04571,40 20,40 8.9542923,40 0,31.045609 0,19.999937 0,8.9542646 8.9542923,-1.0967096E-07 20,1.0074294E-15 z"/>
+                </Button>
+                <TextBlock x:Name="BufferingText" Visibility="{Binding IsInternetFile,Converter={StaticResource boolToVisibilityConverter}}" Grid.Column="2" Foreground="{ThemeResource ProgressBarForegroundThemeBrush}" Text="加载中..." VerticalAlignment="Center" FontSize="18"/>
+                <TextBlock Visibility="{Binding ElementName=mediaElement,Path=CurrentState,Converter={StaticResource mediaStateToVisibilityConverter}}" Grid.Column="2" Foreground="{ThemeResource ProgressBarForegroundThemeBrush}" Text="{Binding ElementName=mediaElement,Path=BufferingProgress,Converter={StaticResource bufferingProgressConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"/>
+                <Button x:Name="Forward" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ControlBtnStyle}" Click="Forward_Click">
+                    <PathIcon VerticalAlignment="Center" HorizontalAlignment="Center" Data="M22.659861,12.678071 C22.857796,12.678075 23.055733,12.75359 23.206757,12.904613 L29.769602,19.467459 C29.939505,19.63736 30.013838,19.866636 29.992605,20.08849 L29.985743,20.136063 29.992609,20.183632 C30.013849,20.405485 29.939524,20.63476 29.76963,20.804653 L23.207054,27.367229 C22.90502,27.669264 22.415316,27.669252 22.11327,27.367207 21.811224,27.065161 21.811213,26.575455 22.113247,26.273422 L28.250643,20.136024 22.112993,13.998376 C21.810947,13.69633 21.810938,13.206625 22.112972,12.90459 22.263988,12.753572 22.461924,12.678067 22.659861,12.678071 z M14.533817,11.312551 C14.767743,11.312555 15.001669,11.401798 15.180151,11.58028 L22.936241,19.33637 C23.137033,19.537163 23.224884,19.808126 23.199791,20.070316 L23.191679,20.126539 23.199793,20.182756 C23.224897,20.444948 23.137058,20.71591 22.936274,20.916693 L15.180503,28.672464 C14.823554,29.029413 14.244812,29.029402 13.887848,28.672438 13.530884,28.315474 13.530872,27.736732 13.887821,27.379782 L21.141108,20.126495 13.887522,12.872909 C13.530559,12.515945 13.530546,11.937203 13.887496,11.580254 14.06597,11.401779 14.299893,11.312545 14.533817,11.312551 z M19.999601,1.9603997 C10.036357,1.9604002 1.9596001,10.037307 1.9595999,20.000401 1.9596001,29.963644 10.036357,38.040401 19.999601,38.040401 29.962845,38.040401 38.0396,29.963644 38.0396,20.000401 38.0396,10.037307 29.962845,1.9604002 19.999601,1.9603997 z M20,1.0074294E-15 C31.04571,-1.0967096E-07 40,8.9542646 40,19.999937 40,31.045609 31.04571,40 20,40 8.9542923,40 0,31.045609 0,19.999937 0,8.9542646 8.9542923,-1.0967096E-07 20,1.0074294E-15 z"/>
+                </Button>
+                <Button x:Name="NextVideo" Grid.Column="4" Visibility="{Binding IsInternetFile,Converter={StaticResource boolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ControlBtnStyle}" Click="NextVideo_Click">
+                    <PathIcon VerticalAlignment="Center" HorizontalAlignment="Center" Data="M26.419996,11.917243 C26.972282,11.917243 27.42,12.364944 27.42,12.917212 L27.42,26.916767 C27.42,27.469034 26.972282,27.916735 26.419996,27.916735 25.86771,27.916735 25.419994,27.469034 25.419994,26.916767 L25.419994,12.917212 C25.419994,12.364944 25.86771,11.917243 26.419996,11.917243 z M13.453046,11.063 C13.68697,11.063 13.920895,11.152236 14.099373,11.330708 L21.855303,19.086367 C22.056089,19.287148 22.143934,19.5581 22.118837,19.820282 L22.110723,19.876501 22.118837,19.932718 C22.143934,20.194899 22.056089,20.465853 21.855301,20.666634 L14.099373,28.422291 C13.742416,28.779236 13.163674,28.779236 12.806718,28.422291 12.44976,28.065348 12.44976,27.486626 12.806718,27.129681 L20.060152,19.876499 12.806718,12.623318 C12.44976,12.266375 12.44976,11.687653 12.806718,11.330708 12.985196,11.152236 13.21912,11.063 13.453046,11.063 z M19.999601,1.9603997 C10.036357,1.9604002 1.9596001,10.037307 1.9595999,20.000401 1.9596001,29.963644 10.036357,38.040401 19.999601,38.040401 29.962845,38.040401 38.0396,29.963644 38.0396,20.000401 38.0396,10.037307 29.962845,1.9604002 19.999601,1.9603997 z M20,1.0074294E-15 C31.04571,-1.0967096E-07 40,8.9542646 40,19.999937 40,31.045609 31.04571,40 20,40 8.9542923,40 0,31.045609 0,19.999937 0,8.9542646 8.9542923,-1.0967096E-07 20,1.0074294E-15 z"/>
+                </Button>
+            </Grid>
+        </Grid>
+        <Popup x:Name="ResolutionSelection" Grid.RowSpan="3" IsLightDismissEnabled="True">
+            <Border Background="#AA000000" BorderThickness="0.5" BorderBrush="White">
+                <ListBox x:Name="ResolutionList" SelectionChanged="ResolutionList_SelectionChanged" ItemContainerStyle="{StaticResource resolutionItem}" ItemsPanel="{StaticResource resolutionItemsPanelTemplate}" BorderThickness="0" Background="Transparent" Width="55">
+                    <ListBoxItem Content="高清" IsSelected="True"/>
+                    <ListBoxItem Content="标清"/>
+                </ListBox>
+            </Border>
+        </Popup>
+         
+    </Grid>
+</UserControl>

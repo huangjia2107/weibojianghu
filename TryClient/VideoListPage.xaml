@@ -1,0 +1,64 @@
+﻿<Page
+    x:Class="TryClient.VideoListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TryClient"
+    xmlns:converter="using:TryClient.Helps"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="White">
+    <Page.Resources>
+        <converter:VisibilityConverter x:Key="visibilityConverter"/>
+
+        <Storyboard x:Name="MsgVisibleStoryboard" Duration="0:0:2" FillBehavior="Stop">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="MsgPopup">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="MsgPopup"/>
+        </Storyboard>
+    </Page.Resources>
+    
+    <Page.BottomAppBar>
+        <CommandBar x:Name="commandBar" VerticalAlignment="Bottom" >
+            <CommandBar.PrimaryCommands>
+                <AppBarButton x:Name="SelectBtn" Label="选择" Icon="Bullets" Click="SelectBtn_Click"/>
+                <AppBarButton x:Name="SelectAllBtn" Label="全选" Icon="SelectAll" Visibility="{Binding Visibility,ElementName=SelectBtn,Converter={StaticResource visibilityConverter}}" Click="SelectAllBtn_Click"/>
+                <AppBarButton x:Name="SelectDownloadBtn" Label="下载" Icon="Download" IsEnabled="False" Visibility="{Binding Visibility,ElementName=SelectBtn,Converter={StaticResource visibilityConverter}}" Click="SelectDownloadBtn_Click"/>
+            </CommandBar.PrimaryCommands> 
+        </CommandBar>
+    </Page.BottomAppBar>
+    <Grid Margin="0,0.333,0,-60.333">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="dateShow" Text="August" FontWeight="Bold" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF46494D"/>
+        <ListBox x:Name="ShowMonthVideoList" Grid.Row="1" Background="#FFEEEEEE" ItemContainerStyle="{StaticResource listItem}" SelectionChanged="ShowMonthVideoList_SelectionChanged">
+           
+        </ListBox>
+
+        <Border x:Name="LoadMediaInfoPanel" Grid.RowSpan="2" Visibility="Collapsed" Background="#AA000000" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False">
+            <StackPanel VerticalAlignment="Center">
+                <ProgressBar IsIndeterminate="True" Margin="0,0,0,5"/>
+                <TextBlock Text="获取视频信息中..." FontSize="20" HorizontalAlignment="Center" Foreground="{ThemeResource ProgressBarForegroundThemeBrush}"/>
+            </StackPanel>
+        </Border>
+        <Border x:Name="AddDownloadPanel" Grid.RowSpan="2" Visibility="Collapsed" Background="#AA000000" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False">
+            <StackPanel VerticalAlignment="Center">
+                <ProgressBar IsIndeterminate="True" Margin="0,0,0,5"/>
+                <TextBlock x:Name="loadText" Text="添加下载中..." FontSize="20" HorizontalAlignment="Center" Foreground="{ThemeResource ProgressBarForegroundThemeBrush}"/>
+            </StackPanel>
+        </Border>
+        <Border Height="43" Grid.RowSpan="2" Visibility="Collapsed" VerticalAlignment="Top" x:Name="MsgPopup" Background="{ThemeResource ProgressBarForegroundThemeBrush}">
+            <Border.RenderTransform>
+                <CompositeTransform TranslateX="-120" x:Name="newTransform"/>
+            </Border.RenderTransform>
+            <TextBlock x:Name="tipText" Text="当前无网络链接,无法下载!" FontSize="17" Margin="10,3,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
+        </Border>
+    </Grid>
+</Page>

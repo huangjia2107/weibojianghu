@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="TryClient.PlayVideoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TryClient"
+    xmlns:converter="using:TryClient.Helps"
+    xmlns:usercontrols="using:TryClient.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="Black">
+    <Page.Resources>
+        <converter:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+        <converter:BoolToNoVisibilityConverter x:Key="boolToNoVisibilityConverter"/>
+        <converter:BufferingProgressConverter x:Key="bufferingProgressConverter"/>
+        <converter:MediaStateToVisibilityConverter x:Key="mediaStateToVisibilityConverter"/>
+        <converter:VisibilityToOpacityConverter x:Key="visibilityToOpacityConverter"/> 
+        
+        <Storyboard x:Name="NewVisibleStoryboard" Duration="0:0:2" FillBehavior="Stop" Completed="NewVisibleStoryboard_Completed">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="quitAsk">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="quitAsk"/>
+        </Storyboard> 
+    </Page.Resources>
+
+    <Grid x:Name="Panel">
+        <usercontrols:MediaPlayControl x:Name="mediaPlayControl" IsInternetFile="True" MediaEnded="mediaPlayControl_MediaEnded" PlayLastMedia="mediaPlayControl_PlayLastMedia" PlayNextMedia="mediaPlayControl_PlayNextMedia" ResolutionChanged="mediaPlayControl_ResolutionChanged"/>
+        <Border Height="43" Visibility="Collapsed" VerticalAlignment="Top" x:Name="quitAsk" Background="{ThemeResource ProgressBarForegroundThemeBrush}">
+            <Border.RenderTransform>
+                <CompositeTransform TranslateX="-120" x:Name="newTransform"/>
+            </Border.RenderTransform>
+            <TextBlock x:Name="tipText" Text="当前视频已经是最新一期" FontSize="17" Margin="10,3,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
+        </Border>
+    </Grid>
+</Page>

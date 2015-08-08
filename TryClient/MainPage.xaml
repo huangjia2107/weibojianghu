@@ -1,0 +1,124 @@
+﻿<Page
+    x:Class="TryClient.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TryClient"
+    xmlns:converter="using:TryClient.Helps"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Loaded="Page_Loaded" 
+    Background="White"   
+    >
+    <Page.Resources>
+        <converter:BoolToVisibilityConverter x:Key="monthBoolToVisibilityConvert"/>
+        <converter:VisibilityConverter x:Key="visibilityConverter"/>
+
+        <Storyboard x:Name="MsgVisibleStoryboard" FillBehavior="Stop" Duration="0:0:3">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="quitAsk">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="quitAsk"/>
+        </Storyboard> 
+    </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar x:Name="commandBar" VerticalAlignment="Bottom">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton  Label="刷新" Click="AppBarButton_Click" Icon="Sync"/>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="DownloadBtn" Icon="Help"  Label="下载管理" Click="DownloadBtn_Click"/>
+                <AppBarButton x:Name="SettingBtn" Icon="Help"  Label="设置" Click="SettingBtn_Click"/>
+                <AppBarButton Icon="Help"  Label="关于" Click="AppBarButton_Click_1"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+    <Grid Margin="0,0.333,0,-60.333">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="微播江湖" FontWeight="Bold" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF46494D"/>
+        <Border Grid.Row="1" Background="#FFEEEEEE" Padding="16,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="170"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Width="368" BorderBrush="Black" BorderThickness="0.2">
+                    <local:PictureView x:Name="ShowPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Tapped="ShowPanel_Tapped"
+                                >
+
+                    </local:PictureView>
+                </Border>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <RadioButton x:Name="First" Content="2014" Grid.Column="0" Background="#FFF0590D" IsChecked="True" Style="{StaticResource YearsBtnStyle}" Checked="RadioButton_Checked"/>
+                    <RadioButton x:Name="Second" Content="2013" Grid.Column="2" Background="#FF55D455" Style="{StaticResource YearsBtnStyle}" Checked="RadioButton_Checked"/>
+                    <RadioButton x:Name="Three" Content="2012" Grid.Column="4" Background="#FFF0C70D" Style="{StaticResource YearsBtnStyle}" Checked="RadioButton_Checked"/>
+                    <RadioButton x:Name="Four" Content="2011" Grid.Column="6" Background="#FF00BCF2" Style="{StaticResource YearsBtnStyle}" Checked="RadioButton_Checked"/>
+                </Grid>
+                <Rectangle Height="1" Grid.Row="3" VerticalAlignment="Bottom" Margin="0,0,0,5" Fill="#FFF0590D" Visibility="{Binding IsChecked,ElementName=First,Converter={StaticResource monthBoolToVisibilityConvert}}"/>
+                <Rectangle Height="1" Grid.Row="3" VerticalAlignment="Bottom" Margin="0,0,0,5" Fill="#FF55D455" Visibility="{Binding IsChecked,ElementName=Second,Converter={StaticResource monthBoolToVisibilityConvert}}"/>
+                <Rectangle Height="1" Grid.Row="3" VerticalAlignment="Bottom" Margin="0,0,0,5" Fill="#FFF0C70D" Visibility="{Binding IsChecked,ElementName=Three,Converter={StaticResource monthBoolToVisibilityConvert}}"/>
+                <Rectangle Height="1" Grid.Row="3" VerticalAlignment="Bottom" Margin="0,0,0,5" Fill="#FF00BCF2" Visibility="{Binding IsChecked,ElementName=Four,Converter={StaticResource monthBoolToVisibilityConvert}}"/>
+
+                <ListBox x:Name="ShowMonthList" Grid.Row="4" Background="Transparent" ItemContainerStyle="{StaticResource monthItem}" ItemsPanel="{StaticResource monthItemsPanelTemplate}" SelectionChanged="ListBox_SelectionChanged">
+                </ListBox>
+            </Grid>
+        </Border>
+        <Border x:Name="LoadPanel" Grid.RowSpan="2" Visibility="Collapsed" Background="#AA000000" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="auto"/> 
+                </Grid.RowDefinitions>
+                <Path x:Name="noNetPath" Width="25" Height="25" Visibility="Collapsed" Stretch="Fill" Fill="{ThemeResource ProgressBarForegroundThemeBrush}" Data="F1 M 58.5832,55.4172L 17.4169,55.4171C 15.5619,53.5621 15.5619,50.5546 17.4168,48.6996L 35.201,15.8402C 37.056,13.9852 40.0635,13.9852 41.9185,15.8402L 58.5832,48.6997C 60.4382,50.5546 60.4382,53.5622 58.5832,55.4172 Z M 34.0417,25.7292L 36.0208,41.9584L 39.9791,41.9583L 41.9583,25.7292L 34.0417,25.7292 Z M 38,44.3333C 36.2511,44.3333 34.8333,45.7511 34.8333,47.5C 34.8333,49.2489 36.2511,50.6667 38,50.6667C 39.7489,50.6667 41.1666,49.2489 41.1666,47.5C 41.1666,45.7511 39.7489,44.3333 38,44.3333 Z "/>
+                <Path x:Name="wifiPath" Width="26" Height="20" Visibility="Collapsed" Stretch="Fill" Fill="{ThemeResource ProgressBarForegroundThemeBrush}" Data="M70.710676,74.58725 C73.404613,74.58725 76.098551,75.614927 78.153904,77.670282 82.264614,81.780991 82.264614,88.446032 78.153904,92.55674 74.043196,96.66745 67.378156,96.66745 63.267446,92.55674 59.156737,88.446032 59.156737,81.780991 63.267446,77.670282 65.322801,75.614927 68.016739,74.58725 70.710676,74.58725 z M70.710676,52.631584 C82.833324,52.631584 94.955971,57.256202 104.20521,66.505438 L94.901171,75.809475 C81.541132,62.449436 59.880219,62.449436 46.520182,75.809475 L37.216146,66.505438 C46.46538,57.256202 58.588028,52.631584 70.710676,52.631584 z M70.710676,26.315722 C89.568096,26.315722 108.42552,33.509604 122.81328,47.897364 L113.50924,57.201401 C89.872152,33.56431 51.549012,33.564497 27.912109,57.201401 L18.60807,47.897364 C32.995832,33.509604 51.853254,26.315722 70.710676,26.315722 z M70.710676,0 C96.302917,0 121.89516,9.7630959 141.42136,29.289291 L132.11732,38.593328 C98.203362,4.6793709 43.217993,4.6793709 9.3040352,38.593328 L0,29.289291 C19.526196,9.7630959 45.118435,0 70.710676,0 z" />
+                <Path x:Name="wapPath" Height="22" Width="25" Visibility="Collapsed" Stretch="Fill" Fill="{ThemeResource ProgressBarForegroundThemeBrush}" Data="F1 M 41,35L 41,57L 35,57L 35,35L 41,35 Z M 33,44L 33,57L 27,57L 27,44L 33,44 Z M 19,57L 19,51L 25,51L 25,57L 19,57 Z M 57,19L 57,57L 51,57L 51,19L 57,19 Z M 49,27L 49,57L 43,57L 43,27L 49,27 Z "/>
+                <ProgressRing Height="40" Width="40" IsActive="True" Background="{x:Null}"/>
+                <TextBlock x:Name="noNetText" Visibility="Visible" FontSize="20" Grid.Row="2" HorizontalAlignment="Center" Foreground="{ThemeResource ProgressBarForegroundThemeBrush}">
+                   <Run Text="        未检测到网络"></Run><LineBreak/>
+                    <Run>请确保网络已经正确连接</Run><LineBreak/>
+                    <Run Text="       然后"></Run>
+                    <Hyperlink Click="Hyperlink_Click"><Underline Foreground="Yellow">重新加载</Underline></Hyperlink>
+                </TextBlock>
+                <TextBlock x:Name="loadText" Visibility="Collapsed" Text="加载数据中..." FontSize="20" Grid.Row="2" HorizontalAlignment="Center" Foreground="{ThemeResource ProgressBarForegroundThemeBrush}"/>
+            </Grid>
+        </Border>
+        <Border Grid.RowSpan="2" Height="43" Visibility="Collapsed" VerticalAlignment="Top" x:Name="quitAsk" Background="{ThemeResource ProgressBarForegroundThemeBrush}">
+            <Border.RenderTransform>
+                <CompositeTransform TranslateX="-120" x:Name="quitTransform"/>
+            </Border.RenderTransform>
+            <TextBlock x:Name="tipText" Text="再按一次退出程序" FontSize="17" Margin="10,3,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
+        </Border> 
+        <Border x:Name="SaveDataPanel" Grid.RowSpan="2" Visibility="Collapsed" Background="#AA000000" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False">
+            <StackPanel VerticalAlignment="Center">
+                <ProgressBar IsIndeterminate="True" Margin="0,0,0,5"/>
+                <TextBlock Text="取消下载并保存数据中,请勿终止..." FontSize="20" HorizontalAlignment="Center" Foreground="{ThemeResource ProgressBarForegroundThemeBrush}"/>
+            </StackPanel>
+        </Border>
+        <Border x:Name="LoadMediaInfoPanel" Grid.RowSpan="2" Visibility="Collapsed" Background="#AA000000" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False">
+            <StackPanel VerticalAlignment="Center">
+                <ProgressBar IsIndeterminate="True" Margin="0,0,0,5"/>
+                <TextBlock Text="获取视频信息中..." FontSize="20" HorizontalAlignment="Center" Foreground="{ThemeResource ProgressBarForegroundThemeBrush}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+
+</Page>

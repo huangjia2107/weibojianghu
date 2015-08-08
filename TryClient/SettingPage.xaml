@@ -1,0 +1,80 @@
+﻿<Page
+    x:Class="TryClient.SettingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TryClient"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="White">
+
+    <Page.Resources>
+        <local:AppSettings x:Key="appSettings"/>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="dateShow" Text="设置" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF46494D" FontWeight="Bold"/>
+        <Border Grid.Row="1" Background="#FFEEEEEE" Padding="15">
+            <StackPanel>
+                <ToggleSwitch Margin="0,15" RequestedTheme="Light" Foreground="#FF84888D" IsOn="{Binding Source={StaticResource appSettings}, Path=DataFlushWhileStart, Mode=TwoWay}">
+                    <ToggleSwitch.Header>
+                        <TextBlock Foreground="#FF46494D" FontSize="20" Text="每次启动均刷新数据"/>
+                    </ToggleSwitch.Header>
+                    <ToggleSwitch.OffContent>
+                        <TextBlock Foreground="#FF84888D" FontSize="18" Text="否"/>
+                    </ToggleSwitch.OffContent>
+                    <ToggleSwitch.OnContent>
+                        <TextBlock Foreground="#FF84888D" FontSize="18" Text="是"/>
+                    </ToggleSwitch.OnContent>
+                </ToggleSwitch>
+                <ToggleSwitch Margin="0,15" RequestedTheme="Light" Foreground="#FF84888D" IsOn="{Binding Source={StaticResource appSettings}, Path=MediaPlayOrder, Mode=TwoWay}">
+                    <ToggleSwitch.Header>
+                        <TextBlock Foreground="#FF46494D" FontSize="20" Text="视频播放顺序"/>
+                    </ToggleSwitch.Header>
+                    <ToggleSwitch.OffContent>
+                        <TextBlock Foreground="#FF84888D" FontSize="18" Text="当前->第一期"/>
+                    </ToggleSwitch.OffContent>
+                    <ToggleSwitch.OnContent>
+                        <TextBlock Foreground="#FF84888D" FontSize="18" Text="当前->最新"/>
+                    </ToggleSwitch.OnContent>
+                </ToggleSwitch>
+                <ToggleSwitch RequestedTheme="Light" FontWeight="Normal" IsOn="{Binding Source={StaticResource appSettings}, Path=DownloadInternetType, Mode=TwoWay}">
+                    <ToggleSwitch.Header>
+                        <TextBlock Foreground="#FF46494D" FontSize="20" Text="2G/3G/4G下允许下载"/>
+                    </ToggleSwitch.Header>
+                    <ToggleSwitch.OffContent>
+                        <TextBlock Foreground="#FF84888D" FontSize="18" Text="否"/>
+                    </ToggleSwitch.OffContent>
+                    <ToggleSwitch.OnContent>
+                        <TextBlock Foreground="#FF84888D" FontSize="18" Text="是"/>
+                    </ToggleSwitch.OnContent>
+                </ToggleSwitch>
+                <ToggleSwitch Margin="0,15" RequestedTheme="Light" Foreground="#FF84888D" IsOn="{Binding Source={StaticResource appSettings}, Path=DownloadResolution, Mode=TwoWay}">
+                    <ToggleSwitch.Header>
+                        <TextBlock Foreground="#FF46494D" FontSize="20" Text="下载清晰度选择"/>
+                    </ToggleSwitch.Header>
+                    <ToggleSwitch.OffContent>
+                        <TextBlock Foreground="#FF84888D" FontSize="18" Text="标清"/>
+                    </ToggleSwitch.OffContent>
+                    <ToggleSwitch.OnContent>
+                        <TextBlock Foreground="#FF84888D" FontSize="18" Text="高清"/>
+                    </ToggleSwitch.OnContent>
+                </ToggleSwitch>
+                <ToggleSwitch Margin="0,15" RequestedTheme="Light" Foreground="#FF84888D" IsOn="{Binding Source={StaticResource appSettings}, Path=PlayResolution, Mode=TwoWay}">
+                    <ToggleSwitch.Header>
+                        <TextBlock Foreground="#FF46494D" FontSize="20" Text="播放清晰度选择"/>
+                    </ToggleSwitch.Header>
+                    <ToggleSwitch.OffContent>
+                        <TextBlock Foreground="#FF84888D" FontSize="18" Text="标清"/>
+                    </ToggleSwitch.OffContent>
+                    <ToggleSwitch.OnContent>
+                        <TextBlock Foreground="#FF84888D" FontSize="18" Text="高清"/>
+                    </ToggleSwitch.OnContent>
+                </ToggleSwitch>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

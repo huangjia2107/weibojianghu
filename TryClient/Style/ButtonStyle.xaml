@@ -1,0 +1,223 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TryClient.Style">
+
+    <Style x:Key="YearsBtnStyle" TargetType="RadioButton">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Pressed"> 
+                                    <Storyboard>
+                                       <PointerDownThemeAnimation Storyboard.TargetName="grid"/>
+                                    </Storyboard> 
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="border">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledBorderThemeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="contentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="SelectFlag">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="SelectFlag">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="grid" Background="#009F1515">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Name="contentPresenter" Grid.RowSpan="2" Grid.ColumnSpan="3"
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            </ContentPresenter>
+                            <Grid x:Name="SelectFlag" Visibility="Collapsed" Grid.Row="1" Grid.ColumnSpan="3">
+                                <Path Data="M15.333,0 L30.666,22 0,22 z" Fill="#FFEEEEEE" HorizontalAlignment="Center" Height="10" Width="30" Stretch="Fill"  VerticalAlignment="Bottom" Margin="0,0,0,-1"/>
+                            </Grid>
+                            <!--
+                            <Grid x:Name="SelectFlag" Visibility="Collapsed" Grid.Row="0" Grid.Column="2" >
+                                <Path Fill="White" Stretch="Fill"  Data="M23.829009,0.022260024 L-1.5881868E-22,2.3707581E-08 23.730446,23.755336 z" />
+                                <Path Fill="#FF0D89F0"  Stretch="Fill" Data="M24.874124,3.9130001 L18.945629,10.053803 15.672927,6.8792055 14.056,8.3915482 19.070629,13.266 26.616,5.4045019 z M0,0 L29.999999,5.1021576E-05 29.980787,30 z"  />
+                            </Grid>
+                            -->
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ControlBtnStyle" TargetType="Button">
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="MinHeight" Value="0"/>
+        <Setter Property="Foreground" Value="{ThemeResource ButtonForegroundThemeBrush}"/> 
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="contentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundThemeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="border">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundThemeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard> 
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>  
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="contentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPressedBackgroundThemeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="border">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPressedBackgroundThemeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard> 
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="border">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="contentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup> 
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="grid" Background="#009F1515"> 
+                            <ContentPresenter x:Name="contentPresenter"
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Foreground="{ThemeResource ButtonForegroundThemeBrush}">
+                            </ContentPresenter> 
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PlayCheckbox" TargetType="CheckBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource CheckBoxBorderThemeBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="MinHeight" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver"/>
+                                <VisualState x:Name="PointerOver"/>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="InnerGrid"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CheckBoxPressedBackgroundThemeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard> 
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CheckBoxDisabledForegroundThemeBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked"/>
+                                <VisualState x:Name="Unchecked"/>
+                                <VisualState x:Name="Indeterminate"/> 
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="InnerGrid">
+                            <ContentPresenter x:Name="ContentPresenter" 
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}"  
+                                              Foreground="{TemplateBinding Foreground}" 
+                                              FontWeight="Normal" 
+                                              FontSize="{ThemeResource TextStyleLargeFontSize}" 
+                                              FontFamily="{ThemeResource PhoneFontFamilyNormal}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <!--
+                            <PathIcon x:Name="CheckedPath" Foreground="{TemplateBinding Foreground}" Visibility="Collapsed" Data="M31.270576,19.504999 C31.679943,19.504999 32.089309,19.661163 32.401646,19.973498 L45.974495,33.54623 C46.325874,33.897607 46.479601,34.371788 46.435678,34.830612 L46.421482,34.929 46.435678,35.027381 C46.479601,35.486209 46.325874,35.960388 45.974495,36.311766 L32.401646,49.884499 C31.776976,50.509167 30.764178,50.509167 30.139506,49.884499 29.514831,49.259832 29.514831,48.247047 30.139506,47.622377 L42.832992,34.928998 30.139506,22.235622 C29.514831,21.610954 29.514831,20.598166 30.139506,19.973498 30.45184,19.661163 30.861209,19.504999 31.270576,19.504999 z M35.000003,3.4299984 C17.564325,3.4300003 3.4300003,17.564588 3.4299984,35.000003 3.4300003,52.435671 17.564325,66.569998 35.000003,66.569998 52.435684,66.569998 66.569998,52.435671 66.569998,35.000003 66.569998,17.564588 52.435684,3.4300003 35.000003,3.4299984 z M34.999999,0 C54.329987,-1.9073486E-06 69.999998,15.669962 69.999998,34.999892 69.999998,54.329821 54.329987,69.999998 34.999999,69.999998 15.670011,69.999998 0,54.329821 0,34.999892 0,15.669962 15.670011,-1.9073486E-06 34.999999,0 z"/>
+                            <PathIcon x:Name="UnCheckedPath" Foreground="{TemplateBinding Foreground}" Visibility="Visible"  Data="M43.458,19.25 C44.424498,19.25 45.208,20.033501 45.208,21 L45.208,49 C45.208,49.966496 44.424498,50.75 43.458,50.75 42.491503,50.75 41.708,49.966496 41.708,49 L41.708,21 C41.708,20.033501 42.491503,19.25 43.458,19.25 z M26.542,19.25 C27.508496,19.25 28.292,20.033501 28.292,21 L28.292,49 C28.292,49.966496 27.508496,50.75 26.542,50.75 25.575502,50.75 24.792,49.966496 24.792,49 L24.792,21 C24.792,20.033501 25.575502,19.25 26.542,19.25 z M35.000008,3.4299994 C17.564325,3.4300013 3.4300003,17.564589 3.4300003,35 3.4300003,52.435673 17.564325,66.57 35.000008,66.57 52.435684,66.57 66.57,52.435673 66.57,35 66.57,17.564589 52.435684,3.4300013 35.000008,3.4299994 z M35,0 C54.32999,0 70,15.669962 70,34.999889 70,54.329819 54.32999,70 35,70 15.670013,70 0,54.329819 0,34.999889 0,15.669962 15.670013,0 35,0 z"/>
+-->
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

@@ -1,0 +1,75 @@
+﻿<Page
+    x:Class="TryClient.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TryClient"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="White">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Favorite"  Label="评分" Click="AppBarButton_Click"/>
+            </CommandBar.PrimaryCommands> 
+        </CommandBar>
+    </Page.BottomAppBar>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="dateShow" Text="关于" FontWeight="Bold" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF46494D"/>
+        <Border Grid.Row="1" Background="#FFEEEEEE" Padding="16,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Height="200" BorderThickness="3" CornerRadius="1" BorderBrush="White">
+                    <Border.Background>
+                        <ImageBrush ImageSource="Image/About.png"/>     
+                    </Border.Background>
+                </Border>
+                <Grid Grid.Row="1" Margin="0,10,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="版本 1.2" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF808080"/>
+                    <Rectangle Height="2" Grid.Row="1" VerticalAlignment="Center"  Fill="White"/>
+                    <StackPanel Grid.Row="3">
+                        <TextBlock Text="联系" FontSize="20" Foreground="#FF808080"/>
+                        <HyperlinkButton Margin="10,0,0,0" FontSize="20" Foreground="#FF46494D" Click="HyperlinkButton_Click">
+                            <TextBlock>
+                                <Underline>支持、缺陷报告或反馈</Underline>
+                            </TextBlock>
+                        </HyperlinkButton>
+                        <TextBlock Text="内容" FontSize="20" Foreground="#FF808080" Margin="0,10,0,0"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="10,2,0,0" Text="网站:" VerticalAlignment="Center" FontSize="20" Foreground="#FF46494D"/>
+                            <HyperlinkButton Margin="10,0,0,0"  NavigateUri="http://dv.56.com/funny/" FontSize="20" Foreground="#FF46494D">
+                                <TextBlock>
+                                <Underline>微播江湖</Underline>
+                                </TextBlock>
+                            </HyperlinkButton>
+                        </StackPanel>
+                        <TextBlock Text="说明" FontSize="20" Foreground="#FF808080" Margin="0,10,0,0"/>
+                            <TextBlock Margin="10,5,0,0" Text="该应用非官方客户端" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="20" Foreground="#FF46494D"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                            <TextBlock Margin="10,0,0,0" Text="©" VerticalAlignment="Center" FontSize="20" Foreground="#FF46494D"/>
+                            <HyperlinkButton Margin="5,0,0,0" NavigateUri="http://www.56.com/" Height="25" Width="82">
+                                <HyperlinkButton.Background>
+                                    <ImageBrush ImageSource="Image/56logol.png"/>
+                                </HyperlinkButton.Background>
+                            </HyperlinkButton>
+                        </StackPanel>
+                       
+                                            </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
